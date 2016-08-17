@@ -1,17 +1,22 @@
-param($stop = $true)
+param($stop = $true
+	, $TenantId = '8b07f925-16b1-4b2a-bac8-4698520516b2'
+	, $rg = "NPO-Torino-Azure"
+	, $credname = 'NPOServiceAccount'
+)
 
-$rg = "NPO-Torino-Azure"
-
-
-$cred = Get-AutomationPSCredential -Name 'NPOServiceAccount'
-
-Login-AzureRmAccount -Credential $cred | fl
-
-
-get-azureRmSubscription
+$ErrorActionPreference = "Stop";
+$my_dir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 
 
-(get-azureRmSubscription)[0] | select-azurermsubscription
+$cred = Get-AutomationPSCredential -Name $credname
+
+Login-AzureRmAccount -Credential $cred -ServicePrincipal -TenantId $TenantId | fl 
+
+"-----------------------------" 
+
+#get-azureRmSubscription 
+
+#(get-azureRmSubscription)[0] | select-azurermsubscription
 
 $vms = Get-AzureRmVM -ResourceGroupName $rg
 
