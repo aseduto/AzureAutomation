@@ -26,7 +26,7 @@ if($stop)
 }
 else
 {
-	$vms | foreach{"Start $($_.Name)"; $_ | Start-AzureRmVm -force}
+	$vms | foreach{"Start $($_.Name)"; $_ | Start-AzureRmVm}
 }
 
 $vms | foreach {$_ | get-azurermvm -status} | foreach {"$($_.Name)`t$($_.Statuses[$_.Statuses.Count - 1].DisplayStatus)"}
